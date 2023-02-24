@@ -24,11 +24,11 @@ struct ContentView: View {
                     Image(systemName: "plus.app")
                     Text("Създай")
                 }
-            Text("Nearby Screen")
-                .tabItem {
-                    Image(systemName: "heart")
-                    Text("Харесани")
-                }
+           // Text("Nearby Screen")
+           //     .tabItem {
+           //         Image(systemName: "heart")
+           //         Text("Харесани")
+           //     }
         }
     }
     

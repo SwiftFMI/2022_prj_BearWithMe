@@ -91,8 +91,9 @@ struct CreateMeme: View {
             )
             
             Button("Качи"){
-                // let model: Meme = Meme(id: "",text:upperText,color:bgColor.description,font:Int(fontSize),image:image,alignIndex: currentIconIndex, //uploadedOn: Date.now, likes: 0)
-                //dataManager.createMeme(model: model)
+                print("Hash color")
+                let model: Meme = Meme(id: "",text:upperText,color:bgColor.cgColor?.components?.description ?? "[]",font:Int(fontSize),image:image,alignIndex: currentIconIndex, uploadedOn: Date.now, likes: 0)
+                dataManager.createMeme(model: model)
                 showingAlert = true
                 
             }

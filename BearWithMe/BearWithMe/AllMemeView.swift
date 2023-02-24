@@ -18,14 +18,12 @@ struct AllMemeView: View {
     @State var dislikeIcons = ["hand.thumbsdown","hand.thumbsdown.fill"]
     @State var likeIcons = ["hand.thumbsup","hand.thumbsup.fill"]
     
-    @State private var bgColor = Color(.sRGB, red: 255, green: 255, blue: 255)
+    @State private var bgColor = Color(.sRGB, red: 34, green: 14, blue: 77)
     @State var showEnd = false
     @State var likes = 0
     @State var dislikes = 0
     @State var filter = "random"
-    
-    @State var borders = [BorderedButtonStyle(),BorderlessButtonStyle()]
-    
+        
     @State var button1 = 0
     @State var button2 = 1
     @State var button3 = 1
@@ -130,7 +128,7 @@ struct AllMemeView: View {
                                 HStack(alignment: VerticalAlignment.bottom){
                                     
                                     TextEditor(text: .constant(dataManager.memes[currentMemeIndex].text))
-                                        .foregroundColor(self.bgColor)
+                                        .foregroundColor(bgColor)
                                         .font(.custom("Georgia", fixedSize: CGFloat(dataManager.memes[currentMemeIndex].font)))
                                         .multilineTextAlignment(aligments[dataManager.memes[currentMemeIndex].alignIndex])
                                         .scrollContentBackground(.hidden)
@@ -210,6 +208,8 @@ struct AllMemeView: View {
                         if dataManager.memes.count-1 > currentMemeIndex{
                             currentMemeIndex += 1;
                             dataManager.getLikes(searchMemeId: dataManager.memes[currentMemeIndex].id)
+                            self.getJson(text: dataManager.memes[currentMemeIndex].color)
+                            print(bgColor)
                         }
                         else{
                             showEnd = true
@@ -221,6 +221,9 @@ struct AllMemeView: View {
                             showEnd = false
                             currentMemeIndex -= 1;
                             dataManager.getLikes(searchMemeId: dataManager.memes[currentMemeIndex].id)
+                            self.getJson(text: dataManager.memes[currentMemeIndex].color)
+                            print(bgColor)
+
                         }
                     }
                 }))
@@ -231,6 +234,22 @@ struct AllMemeView: View {
             ProgressView()
         }
     }
+    
+    func  getJson(text: String){
+        do {
+
+            let jsonDecoder = JSONDecoder()
+            let colors = try jsonDecoder.decode([Double].self, from: text.data(using: .utf8)!)
+            print(colors)
+            print(colors[1])
+            self.bgColor = Color(.sRGB, red: (colors[0]), green: colors[1], blue: colors[2])
+      
+        }
+        catch {
+            print("err")
+        }
+   
+    }
 }
 
 struct AllMemeView_Previews: PreviewProvider {
@@ -238,3 +257,9 @@ struct AllMemeView_Previews: PreviewProvider {
         AllMemeView()
     }
 }
+
+struct Information: Decodable {
+  let name: String
+}
+
+
